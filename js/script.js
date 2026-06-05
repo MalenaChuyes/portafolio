@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function setupRevealBlocks() {
   const blocks = document.querySelectorAll(
-    ".section-heading, .info-card, .project-card, .paper-card, .group-card, .timeline-item, .repo-panel, .chips span, .goals-list article, .contact-panel, .profile-panel"
+    ".section-heading, .info-card, .project-card, .paper-card, .timeline-item, .repo-panel, .chips span, .goals-list article, .contact-panel, .profile-panel"
   );
 
   blocks.forEach((block, index) => {
@@ -121,7 +121,7 @@ function setupGroupsMultiItemCarousel() {
     const tailClones = originals.slice(-visibleCount).map((item) => item.cloneNode(true));
 
     [...tailClones, ...originals.map((item) => item.cloneNode(true)), ...headClones].forEach((item) => {
-      item.classList.remove("active");
+      item.classList.remove("active", "carousel-item-start", "carousel-item-end", "carousel-item-next", "carousel-item-prev");
       track.appendChild(item);
     });
 

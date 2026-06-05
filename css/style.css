@@ -544,7 +544,7 @@ body.menu-collapsed .theme-toggle {
 .groups-carousel {
   position: relative;
   padding: 54px 58px 16px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .groups-carousel .carousel-inner {
@@ -556,14 +556,22 @@ body.menu-collapsed .theme-toggle {
 }
 
 .groups-carousel .carousel-item {
-  display: block;
+  display: block !important;
+  float: none;
   flex: 0 0 calc(100% / 3);
   width: auto;
+  margin-right: 0;
   padding: 0 12px;
+  transform: none;
 }
 
 .groups-carousel .group-card {
   min-width: 0;
+}
+
+.groups-carousel .group-card.reveal-block {
+  opacity: 1;
+  transform: none;
 }
 
 .group-card {
