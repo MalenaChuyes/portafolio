@@ -188,6 +188,7 @@ function setupGearCanvas() {
   const dragSurface = hero || canvas;
   const gearImage = new Image();
   const gears = [];
+  const tintedGearCache = new Map();
   const pointer = { x: 0, y: 0, active: false, lastMove: 0 };
   let draggedGear = null;
   let animationId = null;
@@ -200,6 +201,29 @@ function setupGearCanvas() {
     const styles = getComputedStyle(document.documentElement);
 
     return styles.getPropertyValue("--color-primary").trim() || "#8b4fd6";
+  };
+
+  const getTintedGear = (size, color) => {
+    const roundedSize = Math.ceil(size);
+    const cacheKey = `${roundedSize}-${color}`;
+
+    if (tintedGearCache.has(cacheKey)) {
+      return tintedGearCache.get(cacheKey);
+    }
+
+    const buffer = document.createElement("canvas");
+    const bufferCtx = buffer.getContext("2d");
+
+    buffer.width = roundedSize;
+    buffer.height = roundedSize;
+    bufferCtx.drawImage(gearImage, 0, 0, roundedSize, roundedSize);
+    bufferCtx.globalCompositeOperation = "source-in";
+    bufferCtx.fillStyle = color;
+    bufferCtx.fillRect(0, 0, roundedSize, roundedSize);
+
+    tintedGearCache.set(cacheKey, buffer);
+
+    return buffer;
   };
 
   const resizeCanvas = () => {
@@ -251,11 +275,9 @@ function setupGearCanvas() {
 
     if (gearImage.complete && gearImage.naturalWidth > 0) {
       const size = gear.radius * 2;
-      ctx.drawImage(gearImage, -gear.radius, -gear.radius, size, size);
-      ctx.globalCompositeOperation = "source-in";
-      ctx.fillStyle = getGearColor();
-      ctx.fillRect(-gear.radius, -gear.radius, size, size);
-      ctx.globalCompositeOperation = "source-over";
+      const tintedGear = getTintedGear(size, getGearColor());
+
+      ctx.drawImage(tintedGear, -gear.radius, -gear.radius, size, size);
     } else {
       ctx.beginPath();
       ctx.arc(0, 0, gear.radius, 0, Math.PI * 2);
