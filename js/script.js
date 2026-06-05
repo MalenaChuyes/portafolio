@@ -94,6 +94,7 @@ function setupGroupsMultiItemCarousel() {
   let visibleCount = 3;
   let index = 0;
   let timer = null;
+  let itemWidth = 0;
 
   const getVisibleCount = () => {
     if (window.matchMedia("(max-width: 760px)").matches) {
@@ -108,9 +109,8 @@ function setupGroupsMultiItemCarousel() {
   };
 
   const setPosition = (animate = true) => {
-    const step = 100 / visibleCount;
     track.style.transition = animate ? "transform 560ms ease" : "none";
-    track.style.transform = `translateX(-${index * step}%)`;
+    track.style.transform = `translateX(-${index * itemWidth}px)`;
   };
 
   const buildTrack = () => {
@@ -125,8 +125,14 @@ function setupGroupsMultiItemCarousel() {
       track.appendChild(item);
     });
 
+    itemWidth = track.querySelector(".carousel-item")?.getBoundingClientRect().width || 0;
     index = visibleCount;
     setPosition(false);
+
+    requestAnimationFrame(() => {
+      itemWidth = track.querySelector(".carousel-item")?.getBoundingClientRect().width || itemWidth;
+      setPosition(false);
+    });
   };
 
   const move = (direction) => {
