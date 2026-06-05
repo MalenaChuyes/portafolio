@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.querySelector("#themeToggle");
   const themeIcon = document.querySelector(".theme-icon");
   const themeLabel = document.querySelector("#themeLabel");
+  const menuToggle = document.querySelector("#menuToggle");
   const savedTheme = localStorage.getItem("portfolio-theme");
+  const savedMenu = localStorage.getItem("portfolio-menu");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   const setTheme = (theme) => {
@@ -33,6 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
     themeToggle.addEventListener("click", () => {
       const currentTheme = document.documentElement.getAttribute("data-theme");
       setTheme(currentTheme === "dark" ? "light" : "dark");
+    });
+  }
+
+  if (savedMenu === "collapsed") {
+    document.body.classList.add("menu-collapsed");
+    menuToggle?.setAttribute("aria-pressed", "true");
+  }
+
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      const isCollapsed = document.body.classList.toggle("menu-collapsed");
+      localStorage.setItem("portfolio-menu", isCollapsed ? "collapsed" : "expanded");
+      menuToggle.setAttribute("aria-pressed", String(isCollapsed));
     });
   }
 
@@ -73,8 +88,10 @@ function setupGearCanvas() {
   }
 
   const ctx = canvas.getContext("2d");
+  const hero = canvas.closest(".hero-section");
+  const dragSurface = hero || canvas;
   const gears = [];
-  const pointer = { x: 0, y: 0, active: false };
+  const pointer = { x: 0, y: 0, active: false, lastMove: 0 };
   let draggedGear = null;
   let animationId = null;
 
@@ -198,19 +215,44 @@ function setupGearCanvas() {
   };
 
   const pushFromPointer = (gear) => {
-    if (!pointer.active || draggedGear === gear) {
+    if ((!pointer.active && performance.now() - pointer.lastMove > 650) || draggedGear === gear) {
       return;
     }
 
     const dx = gear.x - pointer.x;
     const dy = gear.y - pointer.y;
     const distance = Math.hypot(dx, dy);
-    const influence = gear.radius + 95;
+    const influence = gear.radius + 145;
 
     if (distance > 0 && distance < influence) {
       const force = (influence - distance) / influence;
-      gear.vx += (dx / distance) * force * 0.22;
-      gear.vy += (dy / distance) * force * 0.22;
+      gear.vx += (dx / distance) * force * 0.34;
+      gear.vy += (dy / distance) * force * 0.34;
+      gear.spin += force * 0.0007 * Math.sign(dx || 1);
+    }
+  };
+
+  const separateGears = () => {
+    for (let i = 0; i < gears.length; i += 1) {
+      for (let j = i + 1; j < gears.length; j += 1) {
+        const first = gears[i];
+        const second = gears[j];
+        const dx = second.x - first.x;
+        const dy = second.y - first.y;
+        const distance = Math.hypot(dx, dy) || 1;
+        const minimum = (first.radius + second.radius) * 0.72;
+
+        if (distance < minimum) {
+          const force = (minimum - distance) / minimum;
+          const nx = dx / distance;
+          const ny = dy / distance;
+
+          first.vx -= nx * force * 0.08;
+          first.vy -= ny * force * 0.08;
+          second.vx += nx * force * 0.08;
+          second.vy += ny * force * 0.08;
+        }
+      }
     }
   };
 
@@ -219,6 +261,8 @@ function setupGearCanvas() {
     const colors = getThemeColors();
 
     ctx.clearRect(0, 0, rect.width, rect.height);
+
+    separateGears();
 
     gears.forEach((gear) => {
       if (draggedGear !== gear) {
@@ -237,12 +281,24 @@ function setupGearCanvas() {
     animationId = requestAnimationFrame(animate);
   };
 
-  canvas.addEventListener("pointerdown", (event) => {
+  const updatePointer = (event) => {
     const position = getPointerPosition(event);
 
     pointer.active = true;
+    pointer.lastMove = performance.now();
     pointer.x = position.x;
     pointer.y = position.y;
+
+    return position;
+  };
+
+  dragSurface.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("a, button")) {
+      return;
+    }
+
+    const position = updatePointer(event);
+
     draggedGear = gears
       .slice()
       .reverse()
@@ -251,16 +307,12 @@ function setupGearCanvas() {
     if (draggedGear) {
       draggedGear.vx = 0;
       draggedGear.vy = 0;
-      canvas.setPointerCapture(event.pointerId);
+      dragSurface.setPointerCapture?.(event.pointerId);
     }
   });
 
-  canvas.addEventListener("pointermove", (event) => {
-    const position = getPointerPosition(event);
-
-    pointer.active = true;
-    pointer.x = position.x;
-    pointer.y = position.y;
+  hero?.addEventListener("pointermove", (event) => {
+    const position = updatePointer(event);
 
     if (draggedGear) {
       draggedGear.vx = (position.x - draggedGear.x) * 0.12;
@@ -270,18 +322,20 @@ function setupGearCanvas() {
     }
   });
 
-  canvas.addEventListener("pointerleave", () => {
+  hero?.addEventListener("pointerleave", () => {
     pointer.active = false;
   });
 
-  canvas.addEventListener("pointerup", (event) => {
+  window.addEventListener("pointerup", (event) => {
     pointer.active = false;
 
     if (draggedGear) {
       draggedGear.vx *= 0.5;
       draggedGear.vy *= 0.5;
       draggedGear = null;
-      canvas.releasePointerCapture(event.pointerId);
+      if (dragSurface.hasPointerCapture?.(event.pointerId)) {
+        dragSurface.releasePointerCapture(event.pointerId);
+      }
     }
   });
 
