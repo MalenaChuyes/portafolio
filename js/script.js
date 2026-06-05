@@ -144,6 +144,7 @@ function setupGearCanvas() {
   const ctx = canvas.getContext("2d");
   const hero = canvas.closest(".hero-section");
   const dragSurface = hero || canvas;
+  const gearImage = new Image();
   const gears = [];
   const pointer = { x: 0, y: 0, active: false, lastMove: 0 };
   let draggedGear = null;
@@ -151,16 +152,7 @@ function setupGearCanvas() {
 
   const random = (min, max) => Math.random() * (max - min) + min;
 
-  const getThemeColors = () => {
-    const styles = getComputedStyle(document.documentElement);
-
-    return {
-      primary: styles.getPropertyValue("--color-primary").trim() || "#8b4fd6",
-      accent: styles.getPropertyValue("--color-accent").trim() || "#c77dff",
-      border: styles.getPropertyValue("--color-border").trim() || "#e7d8f4",
-      surface: styles.getPropertyValue("--color-surface").trim() || "#ffffff",
-    };
-  };
+  gearImage.src = "img/Gear-001.svg";
 
   const resizeCanvas = () => {
     const rect = canvas.getBoundingClientRect();
@@ -203,45 +195,21 @@ function setupGearCanvas() {
     };
   };
 
-  const drawGear = (gear, colors) => {
-    const innerRadius = gear.radius * 0.44;
-    const rootRadius = gear.radius * 0.78;
-    const outerRadius = gear.radius;
-    const steps = gear.teeth * 2;
-
+  const drawGear = (gear) => {
     ctx.save();
     ctx.translate(gear.x, gear.y);
     ctx.rotate(gear.angle);
-    ctx.beginPath();
+    ctx.globalAlpha = 0.78;
 
-    for (let i = 0; i < steps; i += 1) {
-      const radius = i % 2 === 0 ? outerRadius : rootRadius;
-      const theta = (Math.PI * 2 * i) / steps;
-      const x = Math.cos(theta) * radius;
-      const y = Math.sin(theta) * radius;
-
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
+    if (gearImage.complete && gearImage.naturalWidth > 0) {
+      const size = gear.radius * 2;
+      ctx.drawImage(gearImage, -gear.radius, -gear.radius, size, size);
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, gear.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(139, 79, 214, 0.18)";
+      ctx.fill();
     }
-
-    ctx.closePath();
-    ctx.fillStyle = colors.surface;
-    ctx.globalAlpha = 0.48;
-    ctx.fill();
-    ctx.globalAlpha = 0.86;
-    ctx.strokeStyle = colors.primary;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(0, 0, innerRadius, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
-    ctx.fill();
-    ctx.strokeStyle = colors.accent;
-    ctx.stroke();
 
     ctx.restore();
   };
@@ -312,7 +280,6 @@ function setupGearCanvas() {
 
   const animate = () => {
     const rect = canvas.getBoundingClientRect();
-    const colors = getThemeColors();
 
     ctx.clearRect(0, 0, rect.width, rect.height);
 
@@ -329,7 +296,7 @@ function setupGearCanvas() {
         keepInside(gear, rect.width, rect.height);
       }
 
-      drawGear(gear, colors);
+      drawGear(gear);
     });
 
     animationId = requestAnimationFrame(animate);
