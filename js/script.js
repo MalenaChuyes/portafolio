@@ -87,8 +87,15 @@ function setupGroupsMultiItemCarousel() {
     return;
   }
 
-  const items = [...carousel.querySelectorAll(".carousel-item")];
-  const visibleCards = () => {
+  const track = carousel.querySelector(".carousel-inner");
+  const prev = carousel.querySelector(".groups-control-prev");
+  const next = carousel.querySelector(".groups-control-next");
+  const originals = [...carousel.querySelectorAll(".carousel-item")];
+  let visibleCount = 3;
+  let index = 0;
+  let timer = null;
+
+  const getVisibleCount = () => {
     if (window.matchMedia("(max-width: 760px)").matches) {
       return 1;
     }
@@ -100,37 +107,67 @@ function setupGroupsMultiItemCarousel() {
     return 3;
   };
 
-  const rebuildSlides = () => {
-    const count = visibleCards();
-
-    items.forEach((item, index) => {
-      const originalCard = item.querySelector(".group-card");
-
-      if (!originalCard) {
-        return;
-      }
-
-      const content = document.createElement("div");
-      content.className = "carousel-item-content";
-      content.appendChild(originalCard.cloneNode(true));
-
-      for (let offset = 1; offset < count; offset += 1) {
-        const nextItem = items[(index + offset) % items.length];
-        const nextCard = nextItem.querySelector(".group-card");
-
-        if (nextCard) {
-          const clone = nextCard.cloneNode(true);
-          clone.classList.add("group-card-clone");
-          content.appendChild(clone);
-        }
-      }
-
-      item.replaceChildren(content);
-    });
+  const setPosition = (animate = true) => {
+    const step = 100 / visibleCount;
+    track.style.transition = animate ? "transform 560ms ease" : "none";
+    track.style.transform = `translateX(-${index * step}%)`;
   };
 
-  rebuildSlides();
-  window.addEventListener("resize", rebuildSlides);
+  const buildTrack = () => {
+    visibleCount = getVisibleCount();
+    track.replaceChildren();
+
+    const headClones = originals.slice(0, visibleCount).map((item) => item.cloneNode(true));
+    const tailClones = originals.slice(-visibleCount).map((item) => item.cloneNode(true));
+
+    [...tailClones, ...originals.map((item) => item.cloneNode(true)), ...headClones].forEach((item) => {
+      item.classList.remove("active");
+      track.appendChild(item);
+    });
+
+    index = visibleCount;
+    setPosition(false);
+  };
+
+  const move = (direction) => {
+    index += direction;
+    setPosition(true);
+  };
+
+  const start = () => {
+    stop();
+    timer = window.setInterval(() => move(1), 3200);
+  };
+
+  const stop = () => {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  };
+
+  track.addEventListener("transitionend", () => {
+    const total = originals.length;
+
+    if (index >= total + visibleCount) {
+      index = visibleCount;
+      setPosition(false);
+    }
+
+    if (index < visibleCount) {
+      index = total + visibleCount - 1;
+      setPosition(false);
+    }
+  });
+
+  prev?.addEventListener("click", () => move(-1));
+  next?.addEventListener("click", () => move(1));
+  carousel.addEventListener("mouseenter", stop);
+  carousel.addEventListener("mouseleave", start);
+  window.addEventListener("resize", buildTrack);
+
+  buildTrack();
+  start();
 }
 
 function setupGearCanvas() {
