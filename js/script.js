@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.querySelector("#menuToggle");
   const savedTheme = localStorage.getItem("portfolio-theme");
   const savedMenu = localStorage.getItem("portfolio-menu");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   const setTheme = (theme) => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     year.textContent = new Date().getFullYear();
   }
 
-  setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+  setTheme(savedTheme || "light");
 
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
@@ -154,6 +153,12 @@ function setupGearCanvas() {
 
   gearImage.src = "img/Gear-001.svg";
 
+  const getGearColor = () => {
+    const styles = getComputedStyle(document.documentElement);
+
+    return styles.getPropertyValue("--color-primary").trim() || "#8b4fd6";
+  };
+
   const resizeCanvas = () => {
     const rect = canvas.getBoundingClientRect();
     const ratio = window.devicePixelRatio || 1;
@@ -204,6 +209,10 @@ function setupGearCanvas() {
     if (gearImage.complete && gearImage.naturalWidth > 0) {
       const size = gear.radius * 2;
       ctx.drawImage(gearImage, -gear.radius, -gear.radius, size, size);
+      ctx.globalCompositeOperation = "source-in";
+      ctx.fillStyle = getGearColor();
+      ctx.fillRect(-gear.radius, -gear.radius, size, size);
+      ctx.globalCompositeOperation = "source-over";
     } else {
       ctx.beginPath();
       ctx.arc(0, 0, gear.radius, 0, Math.PI * 2);
