@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -8,79 +8,221 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-      <div class="container">
-        <a class="navbar-brand fw-semibold" href="#">Malena Chuyes</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menu">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#sobre-mi">Sobre mi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#proyectos">Proyectos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-          </ul>
-        </div>
-      </div>
+  <aside class="side-nav" aria-label="Menú principal">
+    <a class="navbar-brand" href="#bienvenido">Malena Chuyes</a>
+    <nav class="menu-links">
+      <a class="nav-link" href="#bienvenido">Bienvenido</a>
+      <a class="nav-link" href="#habilidades">Habilidades técnicas</a>
+      <a class="nav-link" href="#proyectos">Proyectos destacados</a>
+      <a class="nav-link" href="#logros">Publicaciones + Logros</a>
+      <a class="nav-link" href="#repositorio">Repositorio</a>
+      <a class="nav-link" href="#grupos">Grupos extracurriculares</a>
+      <a class="nav-link" href="#aficiones">Aficiones</a>
+      <a class="nav-link" href="#objetivos">Objetivos</a>
+      <a class="nav-link" href="#contacto">Contáctame</a>
     </nav>
-  </header>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar modo oscuro">
+      <span class="theme-icon" aria-hidden="true">&#9728;</span>
+      <span id="themeLabel">Modo claro</span>
+    </button>
+  </aside>
 
   <main>
-    <section id="inicio" class="hero-section d-flex align-items-center">
+    <section id="bienvenido" class="hero-section">
       <div class="container">
-        <p class="text-uppercase small text-muted mb-2">Portafolio web</p>
-        <h1 class="display-5 fw-bold">Hola, soy Malena.</h1>
-        <p class="lead">Aqui presentare mis proyectos, habilidades y experiencia.</p>
-        <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <p class="section-kicker">Portafolio personal</p>
+            <h1>Bienvenido, soy Malena Chuyes.</h1>
+            <p class="hero-copy">
+              Estudiante y desarrolladora en formación interesada en tecnología, investigación,
+              automatización y soluciones digitales con impacto.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+              <a class="btn btn-outline-primary" href="#contacto">Contáctame</a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="profile-panel">
+              <div class="profile-avatar">MC</div>
+              <h2>Ingeniería, código y aprendizaje constante</h2>
+              <p>Este espacio reúne mis avances, proyectos, logros y objetivos profesionales.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="sobre-mi" class="section-block">
+    <section id="habilidades" class="section-block">
       <div class="container">
-        <h2>Sobre mi</h2>
-        <p>Esta seccion esta lista para que agregues una descripcion personal y profesional.</p>
+        <div class="section-heading">
+          <p class="section-kicker">Habilidades técnicas</p>
+          <h2>Herramientas que uso para construir y resolver problemas</h2>
+        </div>
+        <div class="skills-grid">
+          <article class="info-card">
+            <h3>Frontend</h3>
+            <p>HTML, CSS, JavaScript, Bootstrap y diseño responsive.</p>
+          </article>
+          <article class="info-card">
+            <h3>Programación</h3>
+            <p>Python, MATLAB, lógica de control, análisis de datos y simulación.</p>
+          </article>
+          <article class="info-card">
+            <h3>Investigación</h3>
+            <p>Lectura técnica, redacción académica, documentación y presentación de resultados.</p>
+          </article>
+          <article class="info-card">
+            <h3>Gestión</h3>
+            <p>Git, GitHub, organización de proyectos y trabajo colaborativo.</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="proyectos" class="section-block bg-light">
+    <section id="proyectos" class="section-block section-tint">
       <div class="container">
-        <h2>Proyectos</h2>
+        <div class="section-heading">
+          <p class="section-kicker">Proyectos destacados</p>
+          <h2>Trabajos que muestran mi crecimiento técnico</h2>
+        </div>
         <div class="row g-4">
-          <div class="col-md-4">
+          <div class="col-md-6 col-xl-4">
             <article class="project-card">
-              <h3>Proyecto 1</h3>
-              <p>Descripcion breve del proyecto.</p>
+              <span class="tag">Web</span>
+              <h3>Portafolio personal</h3>
+              <p>Página web creada con HTML, CSS, JavaScript y Bootstrap para presentar mi perfil profesional.</p>
             </article>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6 col-xl-4">
             <article class="project-card">
-              <h3>Proyecto 2</h3>
-              <p>Descripcion breve del proyecto.</p>
+              <span class="tag">Investigación</span>
+              <h3>Control y simulación</h3>
+              <p>Espacio reservado para proyectos de simulación, control, robótica o análisis técnico.</p>
             </article>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6 col-xl-4">
             <article class="project-card">
-              <h3>Proyecto 3</h3>
-              <p>Descripcion breve del proyecto.</p>
+              <span class="tag">Datos</span>
+              <h3>Análisis aplicado</h3>
+              <p>Sección para notebooks, visualizaciones, reportes o experimentos con datos.</p>
             </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contacto" class="section-block">
+    <section id="logros" class="section-block">
       <div class="container">
-        <h2>Contacto</h2>
-        <p>Agrega aqui tu correo, LinkedIn o GitHub.</p>
+        <div class="section-heading">
+          <p class="section-kicker">Publicaciones + Logros</p>
+          <h2>Avances académicos y reconocimientos</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <span>2026</span>
+            <h3>Publicación o presentación técnica</h3>
+            <p>Agrega aquí artículos, ponencias, informes, congresos o trabajos presentados.</p>
+          </article>
+          <article class="timeline-item">
+            <span>2026</span>
+            <h3>Logro destacado</h3>
+            <p>Incluye becas, reconocimientos, certificaciones o metas académicas alcanzadas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="repositorio" class="section-block section-tint">
+      <div class="container">
+        <div class="repo-panel">
+          <div>
+            <p class="section-kicker">Repositorio</p>
+            <h2>Mi trabajo también vive en GitHub</h2>
+            <p>Revisa el repositorio de este portafolio y los próximos proyectos que iré publicando.</p>
+          </div>
+          <a class="btn btn-primary" href="https://github.com/MalenaChuyes/portafolio" target="_blank" rel="noopener">Ver GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="grupos" class="section-block">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Grupos extracurriculares</p>
+          <h2>Comunidades, equipos y espacios donde participo</h2>
+        </div>
+        <div class="two-column">
+          <article class="info-card">
+            <h3>Grupo académico</h3>
+            <p>Agrega aquí laboratorios, semilleros, clubes universitarios o equipos de investigación.</p>
+          </article>
+          <article class="info-card">
+            <h3>Voluntariado o comunidad</h3>
+            <p>Incluye actividades de liderazgo, mentoría, organización de eventos o participación estudiantil.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="aficiones" class="section-block section-tint">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Aficiones</p>
+          <h2>Intereses que también forman parte de mi perfil</h2>
+        </div>
+        <div class="chips">
+          <span>Lectura</span>
+          <span>Tecnología</span>
+          <span>Diseño web</span>
+          <span>Investigación</span>
+          <span>Aprendizaje continuo</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="objetivos" class="section-block">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">Objetivos</p>
+          <h2>Lo que estoy construyendo a futuro</h2>
+        </div>
+        <div class="goals-list">
+          <article>
+            <span>01</span>
+            <p>Fortalecer mis habilidades en desarrollo web, programación y herramientas de ingeniería.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <p>Crear proyectos aplicados que conecten investigación, tecnología y solución de problemas reales.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <p>Documentar mi crecimiento profesional con claridad, constancia y criterio técnico.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="section-block contact-section">
+      <div class="container">
+        <div class="contact-panel">
+          <p class="section-kicker">Contáctame</p>
+          <h2>Conversemos sobre proyectos, investigación o colaboración</h2>
+          <div class="contact-links">
+            <a href="mailto:tu-correo@email.com">tu-correo@email.com</a>
+            <a href="https://github.com/MalenaChuyes" target="_blank" rel="noopener">GitHub</a>
+            <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="py-4 border-top">
-    <div class="container text-center small text-muted">
-      <span id="year"></span> Malena Chuyes
+  <footer class="site-footer">
+    <div class="container">
+      <p><span id="year"></span> Malena Chuyes. Portafolio personal.</p>
     </div>
   </footer>
 
