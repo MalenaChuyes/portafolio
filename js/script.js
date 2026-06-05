@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  setupGroupsMultiItemCarousel();
   setupRevealBlocks();
   setupGearCanvas();
 });
@@ -78,6 +79,59 @@ function setupRevealBlocks() {
   );
 
   blocks.forEach((block) => observer.observe(block));
+}
+
+function setupGroupsMultiItemCarousel() {
+  const carousel = document.querySelector("#groupsCarousel");
+
+  if (!carousel) {
+    return;
+  }
+
+  const items = [...carousel.querySelectorAll(".carousel-item")];
+  const visibleCards = () => {
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      return 1;
+    }
+
+    if (window.matchMedia("(max-width: 1180px)").matches) {
+      return 2;
+    }
+
+    return 3;
+  };
+
+  const rebuildSlides = () => {
+    const count = visibleCards();
+
+    items.forEach((item, index) => {
+      const originalCard = item.querySelector(".group-card");
+
+      if (!originalCard) {
+        return;
+      }
+
+      const content = document.createElement("div");
+      content.className = "carousel-item-content";
+      content.appendChild(originalCard.cloneNode(true));
+
+      for (let offset = 1; offset < count; offset += 1) {
+        const nextItem = items[(index + offset) % items.length];
+        const nextCard = nextItem.querySelector(".group-card");
+
+        if (nextCard) {
+          const clone = nextCard.cloneNode(true);
+          clone.classList.add("group-card-clone");
+          content.appendChild(clone);
+        }
+      }
+
+      item.replaceChildren(content);
+    });
+  };
+
+  rebuildSlides();
+  window.addEventListener("resize", rebuildSlides);
 }
 
 function setupGearCanvas() {

@@ -547,16 +547,23 @@ body.menu-collapsed .theme-toggle {
 }
 
 .groups-carousel .carousel-inner {
-  display: flex;
   overflow: hidden;
   padding: 52px 4px 42px;
 }
 
 .groups-carousel .carousel-item {
-  display: block;
-  flex: 0 0 33.333333%;
   margin-right: 0;
   padding: 0 12px;
+}
+
+.groups-carousel .carousel-item-content {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.groups-carousel .group-card {
+  min-width: 0;
 }
 
 .group-card {
@@ -775,7 +782,12 @@ body.menu-collapsed .theme-toggle {
   }
 
   .groups-carousel .carousel-item {
-    flex-basis: 50%;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .groups-carousel .carousel-item-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -821,7 +833,12 @@ body.menu-collapsed .theme-toggle {
   }
 
   .groups-carousel .carousel-item {
-    flex-basis: 100%;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .groups-carousel .carousel-item-content {
+    grid-template-columns: 1fr;
   }
 
   .groups-control {
