@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (themeLabel) {
       themeLabel.textContent = theme === "dark" ? "Modo oscuro" : "Modo claro";
     }
+
+    if (themeToggle) {
+      themeToggle.setAttribute("aria-pressed", theme === "dark");
+    }
   };
 
   if (year) {
