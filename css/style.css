@@ -444,6 +444,48 @@ body.menu-collapsed .theme-toggle {
   gap: 18px;
 }
 
+.skill-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.skill-logo-card {
+  display: flex;
+  min-height: 132px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 14px;
+  color: var(--color-text);
+  border: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-primary) 12%);
+  box-shadow: var(--shadow-soft);
+  transition: transform 240ms ease, box-shadow 240ms ease, background-color 240ms ease;
+}
+
+.skill-logo-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  background: color-mix(in srgb, var(--color-surface) 76%, var(--color-primary) 24%);
+  box-shadow: var(--shadow-strong);
+}
+
+.skill-logo-card img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(72, 45, 114, 0.16));
+}
+
+.skill-logo-card span {
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 .info-card,
 .project-card,
 .paper-card {
