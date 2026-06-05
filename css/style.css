@@ -547,12 +547,16 @@ body.menu-collapsed .theme-toggle {
 }
 
 .groups-carousel .carousel-inner {
+  display: flex;
   overflow: hidden;
   padding: 52px 4px 42px;
 }
 
-.groups-slide {
-  align-items: stretch;
+.groups-carousel .carousel-item {
+  display: block;
+  flex: 0 0 33.333333%;
+  margin-right: 0;
+  padding: 0 12px;
 }
 
 .group-card {
@@ -769,6 +773,10 @@ body.menu-collapsed .theme-toggle {
     padding-right: 50px;
     padding-left: 50px;
   }
+
+  .groups-carousel .carousel-item {
+    flex-basis: 50%;
+  }
 }
 
 @media (max-width: 760px) {
@@ -810,6 +818,10 @@ body.menu-collapsed .theme-toggle {
 
   .groups-carousel .carousel-inner {
     padding-top: 50px;
+  }
+
+  .groups-carousel .carousel-item {
+    flex-basis: 100%;
   }
 
   .groups-control {
