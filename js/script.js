@@ -216,20 +216,20 @@ function setupGearCanvas() {
   };
 
   const createGears = (width, height) => {
-    const amount = width < 700 ? 7 : 11;
+    const amount = width < 700 ? 12 : 19;
 
     for (let i = 0; i < amount; i += 1) {
-      const radius = random(26, 58);
+      const radius = i % 4 === 0 ? random(18, 32) : random(24, 52);
 
       gears.push({
         x: random(radius, width - radius),
         y: random(radius, height - radius),
-        vx: random(-0.35, 0.35),
-        vy: random(-0.3, 0.3),
+        vx: random(-0.28, 0.28),
+        vy: random(-0.24, 0.24),
         radius,
         teeth: Math.round(random(9, 15)),
         angle: random(0, Math.PI * 2),
-        spin: random(-0.008, 0.008),
+        spin: random(-0.006, 0.006),
       });
     }
   };
