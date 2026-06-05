@@ -543,24 +543,16 @@ body.menu-collapsed .theme-toggle {
 
 .groups-carousel {
   position: relative;
-  padding: 54px 58px 10px;
+  padding: 54px 58px 16px;
 }
 
-.groups-track {
-  display: grid;
-  grid-auto-columns: calc((100% - 48px) / 3);
-  grid-auto-flow: column;
-  gap: 24px;
-  overflow-x: auto;
-  overflow-y: visible;
+.groups-carousel .carousel-inner {
+  overflow: hidden;
   padding: 52px 4px 42px;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
 }
 
-.groups-track::-webkit-scrollbar {
-  display: none;
+.groups-slide {
+  align-items: stretch;
 }
 
 .group-card {
@@ -570,7 +562,6 @@ body.menu-collapsed .theme-toggle {
   border-radius: 8px;
   background: color-mix(in srgb, var(--color-surface) 92%, var(--color-surface-strong));
   box-shadow: 0 24px 58px rgba(91, 49, 130, 0.14);
-  scroll-snap-align: center;
   text-align: center;
 }
 
@@ -622,7 +613,7 @@ body.menu-collapsed .theme-toggle {
   font-weight: 800;
 }
 
-.carousel-control {
+.groups-control {
   position: absolute;
   top: 50%;
   z-index: 2;
@@ -636,15 +627,16 @@ body.menu-collapsed .theme-toggle {
   background: var(--color-surface);
   box-shadow: 0 16px 34px rgba(91, 49, 130, 0.16);
   transform: translateY(-50%);
+  opacity: 1;
 }
 
-.carousel-control:hover,
-.carousel-control:focus {
+.groups-control:hover,
+.groups-control:focus {
   color: var(--color-surface);
   background: var(--color-primary);
 }
 
-.carousel-control svg {
+.groups-control svg {
   width: 24px;
   height: 24px;
   fill: none;
@@ -654,11 +646,11 @@ body.menu-collapsed .theme-toggle {
   stroke-width: 2.4;
 }
 
-.carousel-prev {
+.groups-control-prev {
   left: 0;
 }
 
-.carousel-next {
+.groups-control-next {
   right: 0;
 }
 
@@ -777,10 +769,6 @@ body.menu-collapsed .theme-toggle {
     padding-right: 50px;
     padding-left: 50px;
   }
-
-  .groups-track {
-    grid-auto-columns: calc((100% - 24px) / 2);
-  }
 }
 
 @media (max-width: 760px) {
@@ -820,12 +808,11 @@ body.menu-collapsed .theme-toggle {
     padding-left: 0;
   }
 
-  .groups-track {
-    grid-auto-columns: 86%;
+  .groups-carousel .carousel-inner {
     padding-top: 50px;
   }
 
-  .carousel-control {
+  .groups-control {
     display: none;
   }
 

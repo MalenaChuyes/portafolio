@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupRevealBlocks();
   setupGearCanvas();
-  setupGroupsCarousel();
 });
 
 function setupRevealBlocks() {
@@ -79,32 +78,6 @@ function setupRevealBlocks() {
   );
 
   blocks.forEach((block) => observer.observe(block));
-}
-
-function setupGroupsCarousel() {
-  const track = document.querySelector("#groupsTrack");
-  const prev = document.querySelector(".carousel-prev");
-  const next = document.querySelector(".carousel-next");
-
-  if (!track || !prev || !next) {
-    return;
-  }
-
-  const getStep = () => {
-    const card = track.querySelector(".group-card");
-    const styles = getComputedStyle(track);
-    const gap = parseFloat(styles.columnGap || styles.gap) || 0;
-
-    return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
-  };
-
-  prev.addEventListener("click", () => {
-    track.scrollBy({ left: -getStep(), behavior: "smooth" });
-  });
-
-  next.addEventListener("click", () => {
-    track.scrollBy({ left: getStep(), behavior: "smooth" });
-  });
 }
 
 function setupGearCanvas() {
