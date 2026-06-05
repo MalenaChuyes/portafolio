@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function setupRevealBlocks() {
   const blocks = document.querySelectorAll(
-    ".section-heading, .info-card, .skill-logo-card, .project-card, .paper-card, .timeline-item, .repo-panel, .chips span, .goals-list article, .contact-panel, .profile-panel"
+    ".section-heading, .info-card, .project-card, .paper-card, .timeline-item, .repo-panel, .chips span, .goals-list article, .contact-panel, .profile-panel"
   );
 
   blocks.forEach((block, index) => {
