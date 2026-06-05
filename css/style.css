@@ -1,5 +1,6 @@
 :root {
   --sidebar-width: 280px;
+  --content-gutter: 56px;
   --color-bg: #fcf9ff;
   --color-surface: #ffffff;
   --color-surface-strong: #f2eafa;
@@ -52,7 +53,7 @@ a {
 
 main,
 .site-footer {
-  margin-left: var(--sidebar-width);
+  margin-left: calc(var(--sidebar-width) + var(--content-gutter));
 }
 
 .side-nav {
@@ -170,8 +171,28 @@ main,
 }
 
 .hero-section {
+  position: relative;
   min-height: 92vh;
   padding: 110px 0 90px;
+  overflow: hidden;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.gear-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  opacity: 0.9;
+}
+
+.gear-canvas:active {
+  cursor: grabbing;
 }
 
 .hero-section h1 {
@@ -468,6 +489,31 @@ main,
 
 .site-footer p {
   margin: 0;
+}
+
+.reveal-block {
+  opacity: 0;
+  transform: translateY(34px) scale(0.985);
+  transition: opacity 650ms ease, transform 650ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-block.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-block,
+  .project-card,
+  .paper-card,
+  .theme-knob {
+    transition: none;
+  }
 }
 
 @media (max-width: 1180px) {
